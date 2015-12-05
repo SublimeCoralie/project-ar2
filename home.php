@@ -31,15 +31,19 @@
 </div>
 <?php endif ?>
 
-<?php else: ?>
+<?php 
+ar2_post_navigation();
+else: ?>
 
-<?php
-// Retrieve latest news section and render the remaining.
-$news_section = $ar2_postviews->get_section( 'news-posts' );
-$news_section->settings[ 'title' ] = __( 'Blog Archives', 'ar2' );
-$news_section->settings[ 'type' ] = ar2_get_theme_option( 'archive_display' );
-$news_section->render();
-?>
+	<?php
+	$wp_query = new WP_Query( array ( 'paged' => $paged, 'posts_per_page' => $posts_per_page ) );
+	if ( $wp_query->have_posts() ) : ?>
+		<h1 class="archive-title"><?php _e( 'Blog Archives', 'ar2' ) ?></h1>
+		<div id="archive-posts">
+			<?php ar2_render_posts( null, array ( 'type' => ar2_get_theme_option( 'archive_display' ) ), true ) ?>
+		</div><!-- #archive-posts -->
+
+	<?php endif; ?>
 
 <?php endif; ?>
 
